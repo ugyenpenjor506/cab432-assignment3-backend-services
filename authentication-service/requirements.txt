@@ -11,3 +11,4 @@ redis
 boto3
 google-auth
 Flask-SocketIO
+requests
