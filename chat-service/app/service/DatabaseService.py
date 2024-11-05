@@ -30,7 +30,6 @@ class DatabaseService:
         
     def create_response(self, conversation_id, query_id, response_text):
         
-        
         try:
             # Create a new query instance
             new_query = BotResponse(ConversationID=conversation_id, QueryID = query_id, ResponseText = response_text)
@@ -41,6 +40,17 @@ class DatabaseService:
             return new_query
         except Exception as e:
             db.session.rollback()
-            return jsonify({"status": "error", "code": 500, "message": "Error creating response", "details": str(e)}), 500
+        
+    def get_response(self, conversation_id, query_id):
+        try:
+            # Query the BotResponse table for the specified conversation_id and query_id
+            response = BotResponse.query.filter_by(ConversationID=conversation_id, QueryID=query_id).first()
+
+            # Return the response text if found, otherwise return None
+            if response:
+                return response.ResponseText
+            return None
+        except Exception as e:
+            return jsonify({"status": "error", "code": 500, "message": "Error retrieving response", "details": str(e)}), 500
 
         

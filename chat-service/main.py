@@ -1,7 +1,5 @@
 from flask import Flask, request
-from flask_socketio import SocketIO, emit, join_room, disconnect
 from flask_cors import CORS  # Import CORS
-import redis
 from app import app
 import time  # For
 

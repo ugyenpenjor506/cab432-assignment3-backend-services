@@ -11,3 +11,7 @@ redis
 boto3
 google-auth
 Flask-SocketIO
+PyPDF2
+langchain_openai
+langchain_community
+chromadb
