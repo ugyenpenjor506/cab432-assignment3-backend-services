@@ -5,8 +5,8 @@ from flask_cors import CORS
 
 app = Flask(__name__)
 
-# Enable CORS for all routes
-CORS(app)
+# Enable CORS for all routes with specific settings
+CORS(app, resources={r"/*": {"origins": "*"}}, supports_credentials=True)
 
 
 # Define the base URLs for the authentication, feedback services, profile service, and chat service
