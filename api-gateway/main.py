@@ -4,10 +4,10 @@ import requests
 app = Flask(__name__)
 
 # Define the base URLs for the authentication, feedback services, profile service, and chat service
-AUTH_SERVICE = "http://127.0.0.1:5001/auth"
-FEEDBACK_SERVICE = "http://127.0.0.1:5002/feedback"
-PROFILE_SERVICE = "http://127.0.0.1:5003/profile"
-CHAT_SERVICE = "http://127.0.0.1:5004/chat"
+AUTH_SERVICE = "http://3.27.236.52:5001/auth"
+FEEDBACK_SERVICE = "http://3.27.30.71:5002/feedback"
+PROFILE_SERVICE = "http://13.236.188.76:5003/profile"
+CHAT_SERVICE = "http://3.106.122.148:5004/chat"
 
 @app.route("/auth/<path:path>", methods=["GET", "POST"])
 def auth_proxy(path):
