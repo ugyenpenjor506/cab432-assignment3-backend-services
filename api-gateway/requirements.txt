@@ -1,0 +1,14 @@
+openai
+Flask
+flask_sqlalchemy
+sqlalchemy_utils
+pymysql
+pyjwt
+flask-cors
+python-dotenv
+cryptography
+redis
+boto3
+google-auth
+Flask-SocketIO
+requests
