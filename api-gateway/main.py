@@ -1,7 +1,9 @@
 from flask import Flask, request, jsonify, redirect
 import requests
+from flask_cors import CORS
 
 app = Flask(__name__)
+CORS(app) 
 
 # Define the base URLs for the authentication, feedback services, profile service, and chat service
 AUTH_SERVICE = "http://3.27.236.52:5001/auth"
