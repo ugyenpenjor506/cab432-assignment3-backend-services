@@ -1,11 +1,8 @@
 from flask import Flask, request, jsonify, redirect
 import requests
-from flask_cors import CORS
 
 app = Flask(__name__)
 
-# Enable CORS for the specific frontend URL
-CORS(app, resources={r"/*": {"origins": "https://d26ajj5z9aer07.cloudfront.net"}}
 
 # Define the base URLs for the authentication, feedback services, profile service, and chat service
 AUTH_SERVICE = "http://3.27.236.52:5001/auth"
