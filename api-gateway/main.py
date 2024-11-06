@@ -1,16 +1,26 @@
-from flask import Flask, request, jsonify, redirect
+from flask import Flask, request, jsonify, redirect, Response
 import requests
 from flask_cors import CORS
 
 app = Flask(__name__)
-CORS(app) 
+CORS(app)
 
-# Define the base URLs for the authentication, feedback services, profile service, and chat service
+# Define the base URLs for services and CloudFront
 AUTH_SERVICE = "http://3.27.236.52:5001/auth"
 FEEDBACK_SERVICE = "http://3.27.30.71:5002/feedback"
 PROFILE_SERVICE = "http://13.236.188.76:5003/profile"
 CHAT_SERVICE = "http://3.106.122.148:5004/chat"
+FRONTEND_CLOUDFRONT_URL = "http://d26ajj5z9aer07.cloudfront.net"
 
+# Proxy all root-level requests to the frontend on CloudFront
+@app.route("/", defaults={"path": ""})
+@app.route("/<path:path>")
+def proxy_frontend(path):
+    target_url = f"{FRONTEND_CLOUDFRONT_URL}/{path}"
+    response = requests.get(target_url, headers={key: value for key, value in request.headers.items() if key.lower() != 'host'})
+    return Response(response.content, status=response.status_code, headers=dict(response.headers))
+
+# Service proxy endpoints
 @app.route("/auth/<path:path>", methods=["GET", "POST"])
 def auth_proxy(path):
     target_url = f"{AUTH_SERVICE}/{path}"
@@ -60,24 +70,17 @@ def proxy_download_profile_picture():
 
 @app.route("/chat/query", methods=["POST"])
 def proxy_chat_query():
-    """Proxy endpoint that forwards chat queries to the chat service."""
     headers = {
         'Authorization': request.headers.get('Authorization'),
         'Content-Type': 'application/json'
     }
-    data = request.get_json()  # Extract JSON payload from the request body
+    data = request.get_json()
 
-    # Target URL for the chat service
     target_url = f"{CHAT_SERVICE}/query"
-
-    # Forward the POST request to the chat service
     response = requests.post(target_url, headers=headers, json=data)
-
-    # Return the response from the chat service
     response_data = response.json() if response.content else {}
     return jsonify(response_data), response.status_code
 
 
 if __name__ == "__main__":
-     app.run(host="0.0.0.0", port=5000, ssl_context=('server.crt', 'server.key'))
-
+    app.run(host="0.0.0.0", port=5000, ssl_context=('server.crt', 'server.key'))
