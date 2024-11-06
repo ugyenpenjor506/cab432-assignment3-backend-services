@@ -77,5 +77,5 @@ def proxy_chat_query():
 
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=3000)
+     app.run(host="0.0.0.0", port=5000, ssl_context=('server.crt', 'server.key'))
 

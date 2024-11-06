@@ -12,7 +12,7 @@ RUN pip3 install --no-cache-dir -r requirements.txt
 COPY . /LLMAPP/
 
 # Expose the correct port (5000) that the Flask app will run on
-EXPOSE 3000
+EXPOSE 5000
 
 # Set the entry point to run the Flask app
 CMD ["python3", "main.py"]
